@@ -8,9 +8,11 @@ export const Navbar = () => {
 
     const { query } = useRouter();
 
+
+
     const id = query.id;
 
-    // console.log(id)
+    //console.log(query)
 
     const { theme } = useTheme()
     
@@ -42,7 +44,7 @@ export const Navbar = () => {
             
             <NextLink href="/favorites" passHref>
                 <Link css={{ marginRight: '10px' }}>
-                    <Text color='white'>Favoritos</Text>
+                    <Text color='white'>Favoritos!</Text>
                 </Link>
             </NextLink>
 
