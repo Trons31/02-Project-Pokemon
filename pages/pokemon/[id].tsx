@@ -132,7 +132,7 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
     paths: pokemons151.map( id => ({
       params: { id }
     })),
-    fallback: false
+    fallback: "blocking"
   }
 }
 
@@ -141,12 +141,23 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   
   const { id } = params as { id: string };
-  
+   
+  const pokemon = await PokeGetStatic(id);
+
+  if( !pokemon ){ // validamos lo que devuelve nuestro TRYCATCH para manejar el la redireccion y no mostrar nuestra pagina 404
+     return{
+      redirect: {
+        destination: '/',
+        permanent : false,
+      }
+     }
+  }
 
   return {
     props: {
-      pokemon: await PokeGetStatic(id),
-    }
+      pokemon 
+    },
+    revalidate: 86400, // Esta propiedad es para regenar esta pagina o revalidar esta pagina y le indicamos el tiempo en segundos, en este caso queremos que se genere cada dia en segundos equivale a 86400
   }
 }
 
